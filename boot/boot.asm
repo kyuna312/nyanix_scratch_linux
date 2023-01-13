@@ -16,7 +16,7 @@ section code
 .clear:
     mov byte [es:eax], 0 ; Move blank character to current text address
     inc eax
-    mov byte [es:eax], 0x30 ; Move the background colour and character colour to the next address
+    mov byte [es:eax], 0xb0 ; Move the background colour and character colour to the next address
     inc eax 
 
     cmp eax, 2 * 25 * 80
@@ -25,7 +25,14 @@ section code
 
 mov eax, text
 
+mov ecx, 3 * 2 * 80
+
 push .end
+call .print
+
+.end:
+     mov byte [es:0x00], 'N'
+     jmp $ 
 
 .print:
     mov dl, byte [eax + ebx]
@@ -49,9 +56,6 @@ push .end
 .print_end:
     ret
     ;mov eax, 0
-
-.end:
-     jmp $ 
 
 text: db 'Nyannix OS', 0
 text1: db 'This is Test Game OS!!!!', 0
